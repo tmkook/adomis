@@ -18,10 +18,12 @@
     "./commands": "./build/commands/main.js"
   },
   "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier --write .",
     "clean": "del-cli build",
     "index:commands": "adonis-kit index build/commands",
     "copy:templates": "copyfiles \"stubs/**/*\" build",
-    "format": "prettier --write .",
     "test": "node --import=./tsnode.esm.js --enable-source-maps bin/test.ts",
     "build": "npm run clean && npm run copy:templates && tsc && npm run index:commands"
   },
