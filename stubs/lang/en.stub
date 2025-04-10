@@ -1,0 +1,8 @@
+{{{
+  exports({ to: app.languageFilesPath('en/'+dir+'/'+model+'.json') })
+}}}
+{ {{#each keys as item}}
+    "{{item}}": "{{string.pascalCase(item)}}",{{/each}}
+    "page_title": "{{model}}",
+    "page_description": "..."
+}

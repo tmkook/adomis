@@ -1,0 +1,17 @@
+{{{
+  exports({ to: app.viewsPath(dir+'/schemas/'+model+'.edge') })
+}}}
+{
+    "type": "crud",
+    "api": "{{ api }}",
+    "columns": [
+        @include('{{dir}}/sections/selection')
+        {{#each column as item}}
+        {
+            "name": "{{item.name}}",
+            "label": "{{item.label}}"
+        },{{/each}}
+        
+        @include('{{dir}}/sections/operation')
+    ]
+}

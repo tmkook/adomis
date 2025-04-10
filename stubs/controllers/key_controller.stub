@@ -1,0 +1,55 @@
+{{#var controllerName = generators.controllerName(model,true)}}
+{{#var controllerFile = generators.controllerFileName(model,true)}}
+{{#var querys = keys.concat(['page','created_at','only_trashed'])}}
+{{{
+  exports({ to: app.httpControllersPath(dir+'/'+controllerFile) })
+}}}
+import type { HttpContext } from '@adonisjs/core/http'
+import { queryBuilder } from '@adonisjs/kmola'
+import Model from '#models/{{model}}'
+
+export default class {{controllerName}} {
+    /**
+    * Display a list of resource
+    */
+    async index({ request }: HttpContext) {
+        let input = request.only({{{JSON.stringify(querys)}}});
+        let data = await queryBuilder(Model.query(), input, {})
+        return { status: 0, data: data }
+    }
+
+    /**
+    * Handle form submission for the create action
+    */
+    async store({ request }: HttpContext) {
+        let input = request.only({{{JSON.stringify(keys)}}});
+        let data = await Model.create(input)
+        return { status: 0, data: data }
+    }
+
+    /**
+    * Handle form submission for the edit action
+    */
+    async update({ params, request }: HttpContext) {
+        let input = request.only({{{JSON.stringify(keys)}}});
+        let data = await Model.findOrFail(params.id)
+        data = await data.merge(input).save()
+        return { status: 0, data: data }
+    }
+
+    /**
+    * Show individual record
+    */
+    async show({ params }: HttpContext) {
+        let data = await Model.findOrFail(params.id)
+        return { status: 0, data: data }
+    }
+
+    /**
+    * Delete record
+    */
+    async destroy({ params }: HttpContext) {
+        let data = await Model.query().whereIn('id', params.id.split(',')).delete()
+        return { status: 0, data: data }
+    }
+}
