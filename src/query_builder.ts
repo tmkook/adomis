@@ -1,7 +1,12 @@
-import type { LucidModel, LucidRow, ModelPaginatorContract, ModelQueryBuilderContract } from '@adonisjs/lucid/types/model'
-import type { filterKeys } from './types.js'
+import type {
+  LucidModel,
+  LucidRow,
+  ModelPaginatorContract,
+  ModelQueryBuilderContract,
+} from '@adonisjs/lucid/types/model'
+import type { FilterKeys } from './types.js'
 
-export const whereType: filterKeys = {
+export const whereType: FilterKeys = {
   gt: '>',
   lt: '<',
   eq: '=',
@@ -9,9 +14,9 @@ export const whereType: filterKeys = {
   llike: '%s',
   rlike: 's%',
   ignore: 'ignore',
-  between: "between",
+  between: 'between',
   with_trashed: 'with_trashed',
-  only_trashed: 'only_trashed'
+  only_trashed: 'only_trashed',
 }
 
 export async function queryBuilder(
@@ -19,16 +24,19 @@ export async function queryBuilder(
   queryKeys: Record<string, any>,
   queryType: Record<string, string>
 ): Promise<ModelPaginatorContract<LucidRow>> {
-  queryType = Object.assign({
-    id: whereType.eq,
-    title: whereType.like,
-    page: whereType.ignore,
-    limit: whereType.ignore,
-    created_at: whereType.between,
-    updated_at: whereType.between,
-    with_trashed: whereType.with_trashed,
-    only_trashed: whereType.only_trashed
-  }, queryType);
+  queryType = Object.assign(
+    {
+      id: whereType.eq,
+      title: whereType.like,
+      page: whereType.ignore,
+      limit: whereType.ignore,
+      created_at: whereType.between,
+      updated_at: whereType.between,
+      with_trashed: whereType.with_trashed,
+      only_trashed: whereType.only_trashed,
+    },
+    queryType
+  )
   for (let key in queryKeys) {
     switch (queryType[key]) {
       case whereType.ignore:
@@ -52,10 +60,10 @@ export async function queryBuilder(
         query = query.whereLike(key, whereType.rlike.replace('s', queryKeys[key]))
         break
       case whereType.between:
-        let value = queryKeys[key].split('-and-');
-        if (value.length == 1) {
+        let value = queryKeys[key].split('-and-')
+        if (value.length === 1) {
           query = query.where(key, '>', value[0])
-        } else if (value.length == 2) {
+        } else if (value.length === 2) {
           query = query.whereBetween(key, value)
         }
         break
@@ -67,20 +75,20 @@ export async function queryBuilder(
         break
       default:
         query = query.where(key, queryKeys[key])
-        break;
+        break
     }
   }
-  let page = parseInt(queryKeys.page ?? '1');
-  let limit = parseInt(queryKeys.limit ?? '20');
+  let page = Number.parseInt(queryKeys.page ?? '1')
+  let limit = Number.parseInt(queryKeys.limit ?? '20')
   if (page < 1) {
-    page = 1;
+    page = 1
   }
   if (limit < 10) {
-    limit = 10;
+    limit = 10
   } else if (limit > 1000) {
-    limit = 1000;
+    limit = 1000
   }
-  let paginate = await query.paginate(page, limit);
+  let paginate = await query.paginate(page, limit)
   paginate.namingStrategy = {
     paginationMetaKeys() {
       return {
@@ -94,7 +102,7 @@ export async function queryBuilder(
         nextPageUrl: 'next_page_url',
         previousPageUrl: 'previous_page_url',
       }
-    }
+    },
   }
   return paginate
 }

@@ -15,11 +15,11 @@
 import ConfigureCommand from '@adonisjs/core/commands/configure'
 
 export async function configure(_command: ConfigureCommand) {
-    const codemods = await _command.createCodemods()
-    await codemods.installPackages([{ name: '@adonisjs/auth', isDevDependency: false }])
-    await codemods.installPackages([{ name: '@adonisjs/i18n', isDevDependency: false }])
-    await codemods.installPackages([{ name: 'adonis-lucid-soft-deletes', isDevDependency: false }])
-    await codemods.updateRcFile((rcFile) => {
-        rcFile.addCommand('@adonisjs/kmola/commands')
-    })
+  const codemods = await _command.createCodemods()
+  await codemods.installPackages([{ name: '@adonisjs/auth', isDevDependency: false }])
+  await codemods.installPackages([{ name: '@adonisjs/i18n', isDevDependency: false }])
+  await codemods.installPackages([{ name: 'adonis-lucid-soft-deletes', isDevDependency: false }])
+  await codemods.updateRcFile((rcFile) => {
+    rcFile.addCommand('@adonisjs/kmola/commands')
+  })
 }

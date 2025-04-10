@@ -5,26 +5,31 @@ This repo provides you with a starting point for creating AdonisJS packages. Of 
 ## Installation
 
 1. Create AdonisJS project
+
 ```
 npm init adonisjs@latest hello-world
 ```
 
 2. Go to project directory add adomis package
+
 ```
 node ace add adomis
 ```
 
 3. Create admin application
+
 ```
 node ace admin:app
 ```
 
 ## Api
+
 ```
 node ace admin:controller modelName
 ```
 
 ## Page
+
 ```
 node ace admin:controller modelName --complete
 ```
