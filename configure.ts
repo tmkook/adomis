@@ -18,13 +18,17 @@ import extract from 'extract-zip'
 import fs from 'node:fs'
 
 export async function configure(_command: ConfigureCommand) {
-  let source = `${stubsRoot}/public/assets/jssdk.zip`
+  let assets = `${stubsRoot}/public/assets`
   let target = _command.app.publicPath('assets')
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true })
   }
-  await extract(source, { dir: target })
-  _command.logger.success('install success public/assets/jssdk')
-  _command.logger.info('To ignore the git of the jssdk, Please run:')
-  _command.logger.info("echo '/public/assets/jssdk' >> .gitignore")
+  await extract(`${assets}/jssdk.zip`, { dir: target })
+  fs.copyFileSync(`${assets}/adova.js`, `${target}/jssdk/adova.js`)
+  fs.copyFileSync(`${assets}/history.js`, `${target}/jssdk/history.js`)
+  if (fs.existsSync(`${target}/jssdk/adova.js`)) {
+    _command.logger.success('install success public/assets/jssdk')
+  } else {
+    _command.logger.error('cannot install public/assets/jssdk')
+  }
 }

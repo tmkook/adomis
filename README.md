@@ -26,13 +26,13 @@ node ace add adova-amis
 
 # 技术栈
 
-* Typescript
-* AdonisJS
-* Amis
+- Typescript
+- AdonisJS
+- Amis
 
 # 特性
 
-* 无需编写 HTML、CSS 代码
-* 支持 Typescript 类型提示
-* 简洁优雅，灵活可扩展
-* 内置丰富的常用页面部件
+- 无需编写 HTML、CSS 代码
+- 支持 Typescript 类型提示
+- 简洁优雅，灵活可扩展
+- 内置丰富的常用页面部件
