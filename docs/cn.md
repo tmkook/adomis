@@ -22,6 +22,13 @@ node ace add adova-amis
 node ace configure adova-amis
 ```
 
+如果你不想在 `adonisjs` 中使用，我们也支持 `npm` 安装和发布前端文件。
+
+```
+npm i adova-amis
+node node_modules/adova-amis/build/bin/pub.js
+```
+
 # 工作原理
 
 所有 amis 组件都放在 `adova-amis/components` 目录。调用方法与 `amis` 组件库属性表中的 `属性名` 相同，参数对应 `属性值` 你可以在 [amis文档](https://baidu.github.io/amis/zh-CN/components) 中找到组件的详细信息。

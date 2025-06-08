@@ -17,16 +17,20 @@ import { stubsRoot } from './stubs/main.js'
 import extract from 'extract-zip'
 import fs from 'node:fs'
 
-export async function configure(_command: ConfigureCommand) {
+export async function publish(target: string): Promise<boolean> {
   let assets = `${stubsRoot}/public/assets`
-  let target = _command.app.publicPath('assets')
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true })
   }
   await extract(`${assets}/jssdk.zip`, { dir: target })
   fs.copyFileSync(`${assets}/adova.js`, `${target}/jssdk/adova.js`)
   fs.copyFileSync(`${assets}/history.js`, `${target}/jssdk/history.js`)
-  if (fs.existsSync(`${target}/jssdk/adova.js`)) {
+  return fs.existsSync(`${target}/jssdk/adova.js`)
+}
+
+export async function configure(_command: ConfigureCommand) {
+  let target = _command.app.publicPath('assets')
+  if (await publish(target)) {
     _command.logger.success('install success public/assets/jssdk')
   } else {
     _command.logger.error('cannot install public/assets/jssdk')
