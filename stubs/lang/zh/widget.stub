@@ -1,0 +1,21 @@
+{{{
+  exports({ to: app.languageFilesPath('zh/amis.json') })
+}}}
+{
+  "locale": "语言",
+  "theme": "主题",
+  "darkness": "深色模式",
+  "welcome": "欢迎回来",
+  "remeber": "记住我",
+  "login": "便当",
+  "setting": "设置",
+  "copyright": "由 Adova 强力驱动",
+  "operation": "操作",
+  "create": "创建",
+  "show": "详情",
+  "edit": "编辑",
+  "delete": "删除",
+  "batchDelete": "批量删除",
+  "darknessDescription": "夜间自动切换至深色模式",
+  "deleteConfirm": "确定删除选中的条目？"
+}

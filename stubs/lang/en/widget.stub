@@ -1,0 +1,21 @@
+{{{
+  exports({ to: app.languageFilesPath('en/amis.json') })
+}}}
+{
+  "locale": "Locale",
+  "theme": "Theme",
+  "darkness": "Darkness",
+  "welcome": "Welcome Back",
+  "remeber": "Remember Me",
+  "login": "Login",
+  "setting": "Setting",
+  "copyright": "Powered by Adova",
+  "operation": "Operation",
+  "create": "Create",
+  "show": "Show",
+  "edit": "Edit",
+  "delete": "Delete",
+  "batchDelete": "Batch Delete",
+  "darknessDescription": "Automatically switch to dark mode at night",
+  "deleteConfirm": "Are you sure to delete the selected items?"
+}

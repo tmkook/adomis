@@ -5,6 +5,10 @@
 export default class Api {
   protected json: Record<string, any> = {}
 
+  constructor(json?: Record<string, any>) {
+    if (json) this.json = json
+  }
+
   static make<Api>(this: new () => Api): Api {
     return new this()
   }

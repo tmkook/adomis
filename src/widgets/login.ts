@@ -1,4 +1,4 @@
-import Api from '../components/api.js'
+import { Widget } from '../types.js'
 import Event from '../components/event.js'
 import Page from '../components/page.js'
 import Container from '../components/container.js'
@@ -10,24 +10,14 @@ import InputText from '../components/input_text.js'
 import InputPassword from '../components/input_password.js'
 import Checkbox from '../components/checkbox.js'
 import Button from '../components/button.js'
+import Dialog from '../components/dialog.js'
+import SettingWidget from './setting.js'
+let setting: SettingWidget
 
-export default class Login {
-  public schema = Page.make()
-
-  constructor(
-    opt: {
-      api?: Api | string
-      logo?: string
-      title?: string
-      captcha?: string
-      usernameLabel?: string
-      passwordLabel?: string
-      captchaLabel?: string
-      submitLabel?: string
-      rememberLabel?: string
-    } = { rememberLabel: 'Remember me', title: 'Welcome Back' }
-  ) {
-    this.schema
+export default class LoginWidget extends Widget {
+  make(): void {
+    setting = new SettingWidget(this.i18n)
+    this.bootSchema = Page.make()
       .css({})
       .cssVars({
         '--body-bg': '#f2f2f2',
@@ -55,16 +45,16 @@ export default class Login {
               .panelClassName('login-form')
               .title(' ')
               .submitText('')
-              .api(opt.api ?? '/login')
               .style({ maxWidth: '360pt' })
               .title([
                 Flex.make()
                   .justify('center')
-                  .permission(!!opt.logo)
                   .items([
                     Image.make()
                       .id('login-logo')
-                      .src(opt.logo ?? '')
+                      .src(
+                        'https://github.com/tmkook/adova-amis/blob/main/docs/img/logo.png?raw=true'
+                      )
                       .imageMode('original')
                       .innerClassName('no-border')
                       .width(50)
@@ -73,16 +63,15 @@ export default class Login {
                   ]),
                 Container.make()
                   .id('login-title')
-                  .permission(!!opt.title)
                   .className('text-center text-xl font-bold mt-2')
-                  .body(opt.title ?? 'Welcome Back'),
+                  .body(this.t('amis.welcome', undefined, 'Welcome Back')),
               ])
               .body([
                 InputText.make()
                   .id('login-username')
                   .name('username')
                   .label(false)
-                  .placeholder(opt.usernameLabel ?? 'Username')
+                  .placeholder(this.t('amis.username'))
                   .required(true)
                   .validations({ minLength: 5, maxLength: 32 })
                   .addOn({ type: 'text', position: 'left', icon: 'fa fa-user' }),
@@ -90,30 +79,30 @@ export default class Login {
                   .id('login-password')
                   .name('password')
                   .label(false)
-                  .placeholder(opt.passwordLabel ?? 'Password')
+                  .placeholder(this.t('amis.password'))
                   .required(true)
                   .validations({ minLength: 5, maxLength: 32 })
                   .addOn({ type: 'text', position: 'left', icon: 'fa fa-lock' }),
                 Flex.make()
+                  .id('login-captcha')
                   .justify('space-between')
                   .alignItems('start')
-                  .permission(!!opt.captcha)
+                  .permission(false)
                   .items([
                     InputText.make()
-                      .id('login-captcha')
+                      .id('login-captcha-input')
                       .name('captcha')
                       .label(false)
                       .required(true)
-                      .placeholder(opt.captchaLabel ?? 'Captcha')
+                      .placeholder(this.t('amis.captcha'))
                       .className('w-3/4')
                       .addOn({ type: 'text', position: 'left', icon: 'fa fa-pen' }),
                     Image.make()
-                      .id('login-captcha')
+                      .id('login-captcha-image')
                       .imageMode('original')
                       .className('login-captcha')
                       .width(100)
                       .height(32)
-                      .src(opt.captcha ?? '')
                       .onEvent('click', [
                         Event.make()
                           .actionType('custom')
@@ -126,47 +115,90 @@ export default class Login {
                 Checkbox.make()
                   .name('remember')
                   .trueValue(true)
-                  .option(opt.rememberLabel ?? 'Remember me')
-                  .permission(!!opt.rememberLabel),
+                  .option(this.t('amis.remember', undefined, 'Remember me')),
                 Button.make()
-                  .label(opt.submitLabel ?? 'Sign in')
+                  .label(this.t('amis.login'))
                   .actionType('submit')
                   .level('primary')
                   .rightIcon('fa fa-arrow-right')
                   .style({ width: '100%', margin: '0' }),
+                Flex.make()
+                  .id('login-footer')
+                  .justify('center')
+                  .alignItems('center')
+                  .items([
+                    Container.make()
+                      .id('login-copyright')
+                      .body(this.t('amis.copyright', undefined, 'Powerd by Adova') + ' | '),
+                    Button.make()
+                      .id('login-setting')
+                      .label(this.t('amis.setting'))
+                      .size('sm')
+                      .level('link')
+                      .onEvent('click', [
+                        Event.make()
+                          .actionType('dialog')
+                          .action(
+                            'dialog',
+                            Dialog.make().title(this.t('amis.setting')).body(setting.getSchema())
+                          ),
+                      ]),
+                  ]),
               ]),
           ]),
       ])
   }
 
-  background(opt: { color?: string; image?: string } = { color: '#FFFFFF' }) {
-    let vars: Record<string, any> = {}
-    if (opt.color) {
-      vars['--Page-main-bg'] = opt.color
-    }
-    if (opt.image) {
-      vars['--Page-main-bg'] = 'none'
-      this.schema.className('login-bg').attr(
+  setApi(api: string | object) {
+    this.bootSchema.find('login-form').api(api)
+    return this
+  }
+
+  disableFooter() {
+    this.bootSchema.find('login-footer').remove()
+  }
+
+  disableCopyright() {
+    this.bootSchema.find('login-copyright').remove()
+  }
+
+  disableSetting() {
+    this.bootSchema.find('login-setting').remove()
+  }
+
+  setBackgroundColor(color: string) {
+    this.bootSchema.attr('cssVars', { '--Page-main-bg': color }, 'merge')
+    return this
+  }
+
+  setBackgroundImage(
+    image: string,
+    size: string = 'cover',
+    position: string = 'center',
+    repeat: string = 'no-repeat'
+  ) {
+    this.bootSchema
+      .className('login-bg')
+      .attr('cssVars', { '--Page-main-bg': 'none' }, 'merge')
+      .attr(
         'css',
         {
           '.login-bg': {
-            'background-image': `url(${opt.image}) !important`,
-            'background-size': 'cover !important',
-            'background-position': 'center !important',
-            'background-repeat': 'no-repeat !important',
+            'background-image': `url(${image}) !important`,
+            'background-size': `${size} !important`,
+            'background-position': `${position} !important`,
+            'background-repeat': `${repeat} !important`,
           },
         },
         'merge'
       )
-    }
-    return this
   }
 
-  side(opt: { image: string; align: 'left' | 'right' }) {
+  setSideImage(image: string, align: 'left' | 'right' = 'left') {
     let bg = Container.make().id('login-side').className('login-side')
-    let hbox = this.schema.find('login-hbox')
-    hbox.attr('columns', bg, opt.align === 'left' ? 'unshift' : 'push')
-    this.schema.attr(
+    let hbox = this.bootSchema.find('login-hbox')
+    hbox.attr('columns', bg, align === 'left' ? 'unshift' : 'push')
+    this.bootSchema.attr(
       'cssVars',
       {
         '--Panel-shadow': 'none',
@@ -179,12 +211,12 @@ export default class Login {
       },
       'merge'
     )
-    this.schema.attr(
+    this.bootSchema.attr(
       'css',
       {
         '.login-side': {
           'height': '100%',
-          'background-image': `url(${opt.image}) !important`,
+          'background-image': `url(${image}) !important`,
           'background-size': 'cover !important',
           'background-position': 'center !important',
           'background-repeat': 'no-repeat !important',
@@ -198,7 +230,7 @@ export default class Login {
     return this
   }
 
-  toJSON() {
-    return this.schema.toJSON()
+  getSettingWidget(): SettingWidget {
+    return setting
   }
 }

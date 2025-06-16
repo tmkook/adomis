@@ -1,5 +1,5 @@
 {
-  "name": "adova-amis",
+  "name": "adomis",
   "description": "amis for adonisjs",
   "version": "1.0.0",
   "engines": {
@@ -14,6 +14,7 @@
   ],
   "exports": {
     ".": "./build/index.js",
+    "./types": "./build/src/types.js",
     "./render": "./build/src/render.js",
     "./widgets/*": "./build/src/widgets/*.js",
     "./components/*": "./build/src/components/*.js"
@@ -46,6 +47,7 @@
     "@adonisjs/assembler": "^7.8.2",
     "@adonisjs/core": "^6.12.0",
     "@adonisjs/eslint-config": "2.0.0-beta.7",
+    "@adonisjs/i18n": "^2.2.0",
     "@adonisjs/prettier-config": "^1.4.0",
     "@adonisjs/tsconfig": "^1.3.0",
     "@japa/assert": "^3.0.0",
@@ -62,7 +64,8 @@
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "@adonisjs/core": "^6.2.0"
+    "@adonisjs/core": "^6.2.0",
+    "@adonisjs/i18n": "^2.2.0"
   },
   "publishConfig": {
     "access": "public",

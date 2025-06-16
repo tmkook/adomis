@@ -38,12 +38,29 @@ export default class Schema<T extends Schema<T>> {
 
   attr(type: string, value: any, mode: 'push' | 'unshift' | 'merge' | 'replace' = 'replace') {
     if (mode === 'push') {
-      this.json[type].push(value)
+      if (!this.json[type]) {
+        this.json[type] = []
+      }
+      if (Array.isArray(value)) {
+        this.json[type].concat(value)
+      } else {
+        this.json[type].push(value)
+      }
     } else if (mode === 'unshift') {
-      this.json[type].unshift(value)
+      if (!this.json[type]) {
+        this.json[type] = []
+      }
+      if (Array.isArray(value)) {
+        value.concat(this.json[type])
+      } else {
+        this.json[type].unshift(value)
+      }
     } else if (mode === 'merge') {
+      if (!this.json[type]) {
+        this.json[type] = {}
+      }
       this.json[type] = Object.assign(this.json[type], value)
-    } else if (mode === 'replace') {
+    } else {
       this.json[type] = value
     }
     return this
@@ -85,6 +102,14 @@ export default class Schema<T extends Schema<T>> {
     return this
   }
 
+  removeArrayItem(key: string, value: any) {
+    let item = this.json[key] ?? []
+    if (Array.isArray(item)) {
+      this.json[key] = item.filter((i: any) => i !== value)
+    }
+    return this
+  }
+
   toJSON(force: boolean = false): any {
     if (force) {
       return this.json
@@ -108,7 +133,7 @@ function removePermission(obj: Record<string, any>): Record<string, any> {
   return obj
 }
 
-function finder(obj: Record<string, any>, id: string): any {
+function finder(obj: Record<string, any>, id: string): Schema<any> | any {
   for (let key in obj) {
     if (obj[key] instanceof Schema) {
       let json = obj[key].toJSON(true)
