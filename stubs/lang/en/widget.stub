@@ -1,5 +1,5 @@
 {{{
-  exports({ to: app.languageFilesPath('en/amis.json') })
+  exports({ to: app.languageFilesPath('en/widget.json') })
 }}}
 {
   "locale": "Locale",
@@ -8,6 +8,10 @@
   "welcome": "Welcome Back",
   "remeber": "Remember Me",
   "login": "Login",
+  "username": "Usrname",
+  "password": "Password",
+  "captcha": "Captcha",
+  "remember": "Remember me",
   "setting": "Setting",
   "copyright": "Powered by Adova",
   "operation": "Operation",
@@ -16,6 +20,6 @@
   "edit": "Edit",
   "delete": "Delete",
   "batchDelete": "Batch Delete",
-  "darknessDescription": "Automatically switch to dark mode at night",
+  "darknessDescription": "Darkness mode at (18pm-08am)",
   "deleteConfirm": "Are you sure to delete the selected items?"
 }

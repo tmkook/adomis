@@ -1,5 +1,5 @@
 {{{
-  exports({ to: app.languageFilesPath('zh/amis.json') })
+  exports({ to: app.languageFilesPath('zh/widget.json') })
 }}}
 {
   "locale": "语言",
@@ -7,7 +7,11 @@
   "darkness": "深色模式",
   "welcome": "欢迎回来",
   "remeber": "记住我",
-  "login": "便当",
+  "login": "登录",
+  "username": "账号",
+  "password": "密码",
+  "captcha": "验证码",
+  "remember": "记住我",
   "setting": "设置",
   "copyright": "由 Adova 强力驱动",
   "operation": "操作",
@@ -16,6 +20,6 @@
   "edit": "编辑",
   "delete": "删除",
   "batchDelete": "批量删除",
-  "darknessDescription": "夜间自动切换至深色模式",
+  "darknessDescription": "自动开启深色模式(18pm-08am)",
   "deleteConfirm": "确定删除选中的条目？"
 }

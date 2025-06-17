@@ -27,29 +27,31 @@ export default class GridWidget extends Widget {
         'filter-toggler',
         Action.make()
           .id('create-button')
-          .label(this.t('amis.create'))
+          .label(this.t('widget.create', undefined, 'Create'))
           .icon('fa fa-plus')
           .align('right')
           .level('primary')
-          .permission(false)
           .actionType('dialog')
           .attr(
             'dialog',
-            Dialog.make().title(this.t('amis.create')).body(Form.make().id('create-form'))
+            Dialog.make()
+              .title(this.t('widget.create', undefined, 'Create'))
+              .body(Form.make().id('create-form'))
           ),
       ])
       .bulkActions([
         Action.make()
           .id('batch-delete')
           .actionType('ajax')
-          .label(this.t('amis.batchDelete'))
+          .label(this.t('widget.batchDelete', undefined, 'Batch Delete'))
           .level('danger')
-          .confirmText(this.t('amis.deleteConfirm', undefined, 'Are you sure delete?')),
+          .confirmText(this.t('widget.deleteConfirm', undefined, 'Are you sure delete?')),
       ])
       .columns([
         ColumnItem.make()
           .id('operation')
-          .label(this.t('amis.operation'))
+          .type('operation')
+          .label(this.t('widget.operation', undefined, 'Operation'))
           .align('right')
           .width('50')
           .buttons([
@@ -61,28 +63,30 @@ export default class GridWidget extends Widget {
               .buttons([
                 Action.make()
                   .id('show-button')
-                  .label(this.t('amis.show'))
+                  .label(this.t('widget.show', undefined, 'Show'))
                   .actionType('dialog')
                   .attr(
                     'dialog',
                     Dialog.make()
-                      .title(this.t('amis.show'))
+                      .title(this.t('widget.show', undefined, 'Show'))
                       .body(Form.make().id('show-form').static(true))
                   ),
                 Action.make()
                   .id('edit-button')
-                  .label(this.t('amis.edit'))
+                  .label(this.t('widget.edit', undefined, 'Edit'))
                   .actionType('dialog')
                   .attr(
                     'dialog',
-                    Dialog.make().title(this.t('amis.edit')).body(Form.make().id('edit-form'))
+                    Dialog.make()
+                      .title(this.t('widget.edit', undefined, 'Edit'))
+                      .body(Form.make().id('edit-form'))
                   ),
                 Action.make()
                   .id('delete-button')
                   .actionType('ajax')
-                  .label(this.t('amis.delete'))
+                  .label(this.t('widget.delete', undefined, 'Delete'))
                   .level('link')
-                  .confirmText(this.t('amis.deleteConfirm', undefined, 'Are you sure delete?')),
+                  .confirmText(this.t('widget.deleteConfirm', undefined, 'Are you sure delete?')),
               ]),
           ]),
       ])
@@ -197,9 +201,9 @@ export default class GridWidget extends Widget {
 
     let list = []
     for (let item of columns) {
-      let json = item.toJSON()
-      let row = ColumnItem.make().name(json.name).label(json.label)
-      if (json.name === 'id') {
+      let column = item.toJSON()
+      let row = ColumnItem.make().name(column.name).label(column.label)
+      if (column.name === 'id') {
         row.sortable(true)
       }
       list.push(row)

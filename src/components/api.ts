@@ -6,7 +6,7 @@ export default class Api {
   protected json: Record<string, any> = {}
 
   constructor(json?: Record<string, any>) {
-    if (json) this.json = json
+    if (json) this.json = JSON.parse(JSON.stringify(json))
   }
 
   static make<Api>(this: new () => Api): Api {

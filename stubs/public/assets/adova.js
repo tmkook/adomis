@@ -122,7 +122,7 @@ const Adova = new (function () {
 
   this.plainCookie = function (key, data) {
     if (data) {
-      let value = btoa(JSON.stringify({ message: data }))
+      let value = btoa(JSON.stringify({ message: data })).replaceAll('=', '')
       let expires = new Date(Date.now() + 86400 * 365 * 1000)
       document.cookie = key + '=' + value + '; expires=' + expires.toUTCString() + '; path=/'
       window.location.reload()
@@ -153,9 +153,11 @@ const Adova = new (function () {
     const settings = this.plainCookie('settings') ?? {}
     props.context = props.context ?? {}
     props.context.settings = settings
-    props.locale = settings.locale
-
-    env.theme = nowTheme(settings.theme ?? 'cxd', settings.darkness)
+    if (settings.locale) {
+      props.locale = settings.locale
+    }
+    let theme = env.theme ?? 'cxd'
+    env.theme = nowTheme(settings.theme ?? theme, settings.darkness)
     env.updateLocation = updateLocation
     env.isCurrentUrl = isCurrentUrl
     env.jumpTo = jumpTo

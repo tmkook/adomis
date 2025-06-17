@@ -18,11 +18,18 @@ export default class LoginWidget extends Widget {
   make(): void {
     setting = new SettingWidget(this.i18n)
     this.bootSchema = Page.make()
-      .css({})
+      .css({
+        '.login-setting': {
+          'top': '45%',
+          'right': '-3px',
+          'position': 'absolute',
+          'border-radius': '6px !important',
+          'padding': '1.5rem 0.5rem !important',
+        },
+      })
       .cssVars({
-        '--body-bg': '#f2f2f2',
         '--borderWidth': '0',
-        '--Page-main-bg': '#f2f2f2',
+        '--Page-main-bg': 'none',
         '--Form-item-mobile-gap': '1rem',
         '--Panel-borderRadius': '10pt',
         '--Panel-heading-bottom-border-style': 'none',
@@ -52,9 +59,7 @@ export default class LoginWidget extends Widget {
                   .items([
                     Image.make()
                       .id('login-logo')
-                      .src(
-                        'https://github.com/tmkook/adova-amis/blob/main/docs/img/logo.png?raw=true'
-                      )
+                      .src('https://github.com/tmkook/adomis/blob/main/docs/img/logo.png?raw=true')
                       .imageMode('original')
                       .innerClassName('no-border')
                       .width(50)
@@ -64,14 +69,14 @@ export default class LoginWidget extends Widget {
                 Container.make()
                   .id('login-title')
                   .className('text-center text-xl font-bold mt-2')
-                  .body(this.t('amis.welcome', undefined, 'Welcome Back')),
+                  .body(this.t('widget.welcome', undefined, 'Welcome Back')),
               ])
               .body([
                 InputText.make()
                   .id('login-username')
                   .name('username')
                   .label(false)
-                  .placeholder(this.t('amis.username'))
+                  .placeholder(this.t('widget.username', undefined, 'Username'))
                   .required(true)
                   .validations({ minLength: 5, maxLength: 32 })
                   .addOn({ type: 'text', position: 'left', icon: 'fa fa-user' }),
@@ -79,7 +84,7 @@ export default class LoginWidget extends Widget {
                   .id('login-password')
                   .name('password')
                   .label(false)
-                  .placeholder(this.t('amis.password'))
+                  .placeholder(this.t('widget.password', undefined, 'Password'))
                   .required(true)
                   .validations({ minLength: 5, maxLength: 32 })
                   .addOn({ type: 'text', position: 'left', icon: 'fa fa-lock' }),
@@ -94,7 +99,7 @@ export default class LoginWidget extends Widget {
                       .name('captcha')
                       .label(false)
                       .required(true)
-                      .placeholder(this.t('amis.captcha'))
+                      .placeholder(this.t('widget.captcha', undefined, 'Captcha'))
                       .className('w-3/4')
                       .addOn({ type: 'text', position: 'left', icon: 'fa fa-pen' }),
                     Image.make()
@@ -115,13 +120,13 @@ export default class LoginWidget extends Widget {
                 Checkbox.make()
                   .name('remember')
                   .trueValue(true)
-                  .option(this.t('amis.remember', undefined, 'Remember me')),
+                  .option(this.t('widget.remember', undefined, 'Remember me')),
                 Button.make()
-                  .label(this.t('amis.login'))
+                  .label(this.t('widget.login', undefined, 'Login'))
                   .actionType('submit')
                   .level('primary')
                   .rightIcon('fa fa-arrow-right')
-                  .style({ width: '100%', margin: '0' }),
+                  .style({ width: '100%', margin: '0 0 1rem 0' }),
                 Flex.make()
                   .id('login-footer')
                   .justify('center')
@@ -129,22 +134,23 @@ export default class LoginWidget extends Widget {
                   .items([
                     Container.make()
                       .id('login-copyright')
-                      .body(this.t('amis.copyright', undefined, 'Powerd by Adova') + ' | '),
-                    Button.make()
-                      .id('login-setting')
-                      .label(this.t('amis.setting'))
-                      .size('sm')
-                      .level('link')
-                      .onEvent('click', [
-                        Event.make()
-                          .actionType('dialog')
-                          .action(
-                            'dialog',
-                            Dialog.make().title(this.t('amis.setting')).body(setting.getSchema())
-                          ),
-                      ]),
+                      .body(this.t('widget.copyright', undefined, 'Powerd by Adova')),
                   ]),
               ]),
+          ]),
+        Button.make()
+          .id('login-setting')
+          .className('login-setting')
+          .icon('fa fa-cog')
+          .onEvent('click', [
+            Event.make()
+              .actionType('dialog')
+              .action(
+                'dialog',
+                Dialog.make()
+                  .title(this.t('widget.setting', undefined, 'Setting'))
+                  .body(setting)
+              ),
           ]),
       ])
   }
@@ -166,35 +172,7 @@ export default class LoginWidget extends Widget {
     this.bootSchema.find('login-setting').remove()
   }
 
-  setBackgroundColor(color: string) {
-    this.bootSchema.attr('cssVars', { '--Page-main-bg': color }, 'merge')
-    return this
-  }
-
-  setBackgroundImage(
-    image: string,
-    size: string = 'cover',
-    position: string = 'center',
-    repeat: string = 'no-repeat'
-  ) {
-    this.bootSchema
-      .className('login-bg')
-      .attr('cssVars', { '--Page-main-bg': 'none' }, 'merge')
-      .attr(
-        'css',
-        {
-          '.login-bg': {
-            'background-image': `url(${image}) !important`,
-            'background-size': `${size} !important`,
-            'background-position': `${position} !important`,
-            'background-repeat': `${repeat} !important`,
-          },
-        },
-        'merge'
-      )
-  }
-
-  setSideImage(image: string, align: 'left' | 'right' = 'left') {
+  setSideImage(image: string, align: 'left' | 'right' = 'right') {
     let bg = Container.make().id('login-side').className('login-side')
     let hbox = this.bootSchema.find('login-hbox')
     hbox.attr('columns', bg, align === 'left' ? 'unshift' : 'push')

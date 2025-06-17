@@ -18,33 +18,47 @@ import extract from 'extract-zip'
 import fs from 'node:fs'
 
 export async function configure(_command: ConfigureCommand) {
-  // install adonisjs modules
-  const packages = [{ name: '@adonisjs/i18n', isDevDependency: false }]
   const codemods = await _command.createCodemods()
-  await codemods.installPackages(packages)
+  let overwrite = codemods.overwriteExisting
+  if (!fs.existsSync(_command.app.middlewarePath('detect_user_locale_middleware.ts'))) {
+    // install adonisjs modules
+    const packages = [{ name: '@adonisjs/i18n', isDevDependency: false }]
+    await codemods.installPackages(packages)
 
-  // configure modules
-  for (let pkg of packages) {
-    await _command.kernel.exec('configure', [
-      pkg.name,
-      '--force',
-      '--verbose',
-      '--package-manager=npm',
-    ])
+    // configure modules
+    for (let pkg of packages) {
+      await _command.kernel.exec('configure', [
+        pkg.name,
+        '--force',
+        '--verbose',
+        '--package-manager=npm',
+      ])
+    }
+
+    // force middleware
+    codemods.overwriteExisting = true
   }
 
-  // add stubs
-  codemods.overwriteExisting = true
+  // i18n stubs
+  await codemods.makeUsingStub(stubsRoot, '/app/middleware/detect_user_locale_middleware.stub', {})
+
+  // reset overwrite
+  codemods.overwriteExisting = overwrite
+
+  // lang stubs
   await codemods.makeUsingStub(stubsRoot, '/lang/en/widget.stub', {})
   await codemods.makeUsingStub(stubsRoot, '/lang/zh/widget.stub', {})
-  await codemods.makeUsingStub(stubsRoot, '/app/middleware/detect_user_locale_middleware.stub', {})
 
   // extract jssdk
   let target = _command.app.publicPath('assets')
-  if (await publish(target)) {
-    _command.logger.success('install success public/assets/jssdk')
+  if (!fs.existsSync(target) || overwrite) {
+    if (await publish(target)) {
+      _command.logger.success('[extract]: public/assets/jssdk')
+    } else {
+      _command.logger.error('[extract error]: public/assets/jssdk')
+    }
   } else {
-    _command.logger.error('cannot install public/assets/jssdk')
+    _command.logger.info('[skip]: public/assets/jssdk')
   }
 }
 

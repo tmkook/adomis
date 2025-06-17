@@ -12,25 +12,21 @@ export default class SettingWidget extends Widget {
           .id('setting-locale')
           .name('locale')
           .value('${settings.locale}')
-          .label(this.t('amis.locale'))
+          .label(this.t('widget.locale', undefined, 'Locale'))
           .options(['en', 'zh']),
         Select.make()
           .id('setting-theme')
           .name('theme')
           .value('${settings.theme}')
-          .label(this.t('amis.theme'))
+          .label(this.t('widget.theme', undefined, 'Theme'))
           .options(['cxd', 'ang', 'antd', 'dark']),
         InputSwitch.make()
           .id('setting-darkness')
           .name('darkness')
           .value('${settings.darkness}')
-          .label(this.t('amis.darkness'))
+          .label(this.t('widget.darkness'))
           .description(
-            this.t(
-              'amis.darknessDescription',
-              undefined,
-              'Automatically switch to dark mode at night'
-            )
+            this.t('widget.darknessDescription', undefined, 'Darkness mode at (18pm-08am)')
           ),
       ])
       .onEvent('submit', [

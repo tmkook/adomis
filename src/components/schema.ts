@@ -42,7 +42,7 @@ export default class Schema<T extends Schema<T>> {
         this.json[type] = []
       }
       if (Array.isArray(value)) {
-        this.json[type].concat(value)
+        this.json[type] = this.json[type].concat(value)
       } else {
         this.json[type].push(value)
       }
@@ -51,7 +51,7 @@ export default class Schema<T extends Schema<T>> {
         this.json[type] = []
       }
       if (Array.isArray(value)) {
-        value.concat(this.json[type])
+        this.json[type] = value.concat(this.json[type])
       } else {
         this.json[type].unshift(value)
       }

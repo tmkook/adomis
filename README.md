@@ -152,21 +152,11 @@ second.permission(false)
 import Api from 'adomis/components/api'
 import render from 'adomis/render'
 import LoginWidget from 'adomis/widgets/login'
-
 let login = new LoginWidget(ctx.i18n)
-
-// 设置表单提交接口
-login.setApi(Api.make().url('/login').method('post').csrf(ctx.csrfToken()))
-
-// 设置背景颜色
-login.setBackgroundColor('#FFFFFF')
-
-// 设置侧栏图片
-login.setSideImage('/bgurl.png', 'left')
 
 // 渲染HTML页面
 return render({
-  title: 'Login', //HTML 页面标题
+  title: 'Login', // html title
   schema: login, // amis json
   props: {}, // amis props
   env: {}, //amis env

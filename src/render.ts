@@ -4,7 +4,6 @@ let html = `
 <head>
 <meta charset="UTF-8" />
 <title>{{@title}}</title>
-<meta name="referrer" content="same-origin" />
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -23,7 +22,21 @@ let html = `
 <script>Adova.render({{@schema}}, {{@props}}, {{@env}})</script>
 </html>
 `
-export default function render(schema: object, title?: string, props?: object, env?: object) {
+export default function render(
+  schema: any,
+  title?: string,
+  props?: Record<string, any>,
+  env?: Record<string, any>
+) {
+  if (schema.getLocale) {
+    if (props) {
+      props.locale = schema.getLocale()
+    } else {
+      props = {
+        locale: schema.getLocale(),
+      }
+    }
+  }
   return html
     .replace('{{@title}}', title ?? 'Welcome')
     .replace('{{@schema}}', JSON.stringify(schema))
