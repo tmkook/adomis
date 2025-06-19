@@ -16,34 +16,52 @@ export default class CardInfoWidget extends Widget {
           .alignItems('center')
           .items([
             Image.make()
+              .id('logo')
               .imageMode('original')
               .innerClassName('border-none pt-10')
               .width(60)
               .height(60)
               .src('https://github.com/tmkook/adova-amis/blob/main/docs/img/logo.png?raw=true'),
-            Container.make().className('text-center text-3xl pt-8').body('Adova Admin'),
           ]),
+        Container.make().id('title').className('text-center text-3xl pt-8').body('Adova Admin'),
         Flex.make()
-          .className('w-full mt-5')
+          .id('links')
+          .className('w-full mt-8')
           .justify('center')
           .items([
             Link.make()
-              .label('Adova')
-              .className('px-6 text-lg font-bold')
+              .body('Adova')
+              .className('px-6 text-lg')
+              .blank(true)
               .href('https://github.com/tmkook/adova'),
             Link.make()
-              .label('Adoamis')
-              .className('px-6 text-lg font-bold')
-              .href('https://github.com/tmkook/adoamis'),
+              .body('Adomis')
+              .className('px-6 text-lg')
+              .blank(true)
+              .href('https://github.com/tmkook/adomis'),
             Link.make()
-              .label('AdonisJS')
-              .className('px-6 text-lg font-bold')
+              .body('AdonisJS')
+              .className('px-6 text-lg')
+              .blank(true)
               .href('https://adonisjs.com/'),
             Link.make()
-              .label('Packages')
-              .className('px-6 text-lg font-bold')
-              .href('https://packages.adonisjs.com'),
+              .body('Amis')
+              .className('px-6 text-lg')
+              .blank(true)
+              .href('https://baidu.github.io/amis/zh-CN/docs/index'),
           ]),
       ])
+  }
+
+  setLogo(url: string) {
+    this.bootSchema.find('logo').src(url)
+  }
+
+  setTitle(title: string) {
+    this.bootSchema.find('title').body(title)
+  }
+
+  setLinks(links: object[]) {
+    this.bootSchema.find('links').items(links)
   }
 }

@@ -19,6 +19,9 @@
   "show": "详情",
   "edit": "编辑",
   "delete": "删除",
+  "reset": "重置",
+  "search": "搜索",
+  "recycle": "回收站",
   "batchDelete": "批量删除",
   "darknessDescription": "自动开启深色模式(18pm-08am)",
   "deleteConfirm": "确定删除选中的条目？"

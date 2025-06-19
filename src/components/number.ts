@@ -7,7 +7,7 @@ import Schema from './schema.js'
 export default class Number extends Schema<Number> {
   protected json: Record<string, any> = { type: 'number' }
 
-  value(value: string) {
+  value(value: string | number) {
     this.json['value'] = value
     return this
   }

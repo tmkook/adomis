@@ -1,6 +1,5 @@
 import Schema from './schema.js'
 import Api from './api.js'
-import Action from './action.js'
 
 /**
  * Form
@@ -49,7 +48,7 @@ export default class Form extends Schema<Form> {
     return this
   }
 
-  actions(actions: Action[]) {
+  actions(actions: Schema<any>[]) {
     this.json['actions'] = actions
     return this
   }

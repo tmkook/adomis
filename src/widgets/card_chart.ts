@@ -26,7 +26,7 @@ export default class CardChartWidget extends Widget {
     this.bootSchema = Panel.make().className('h-80').body(Chart.make().id('chart').config(example))
   }
 
-  setData(data: object | string) {
+  setConfig(data: object | string) {
     this.bootSchema.find('chart').config(data)
     return this
   }

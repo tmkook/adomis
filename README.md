@@ -1,12 +1,11 @@
 <div align="center">
-  <img src="https://github.com/tmkook/adomis/blob/main/docs/img/logo.png?raw=true" width="160" alt="adova" />
+  <img src="https://github.com/tmkook/adomis/blob/main/docs/img/logo.png?raw=true" width="120" alt="adova" />
   <h1 align="center">adomis</h1>
   <h4 align="center">amis for adonisjs, quickly build page</h4>
 
-[adova](https://github.com/tmkook/adova) |
-[widget](https://github.com/tmkook/adomis/blob/main/src/widgets) |
 [amis](https://baidu.github.io/amis/zh-CN/docs/index) |
-[adonisjs](https://docs.adonisjs.com/guides/preface/introduction)
+[adonisjs](https://docs.adonisjs.com/guides/preface/introduction) |
+[example](https://github.com/tmkook/adomis/blob/main/src/widgets)
 
 </div>
 
@@ -149,18 +148,13 @@ second.permission(false)
 在 adomis 中内置了一些常用的部件，他们都放置在 `adomis/widgets` 目录，只需少量配置即可构建漂亮的页面。
 
 ```typescript
-import Api from 'adomis/components/api'
 import render from 'adomis/render'
+import Api from 'adomis/components/api'
 import LoginWidget from 'adomis/widgets/login'
 let login = new LoginWidget(ctx.i18n)
 
 // 渲染HTML页面
-return render({
-  title: 'Login', // html title
-  schema: login, // amis json
-  props: {}, // amis props
-  env: {}, //amis env
-})
+return render(login)
 ```
 
 <div align="center">

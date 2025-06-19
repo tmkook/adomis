@@ -33,7 +33,7 @@ export default class Card extends Schema<Card> {
     return this
   }
 
-  actions(actions: Action[]) {
+  actions(actions: object[]) {
     this.json['actions'] = actions
     return this
   }
@@ -58,7 +58,7 @@ export default class Card extends Schema<Card> {
     return this
   }
 
-  toolbar(toolbar: Action[]) {
+  toolbar(toolbar: object[]) {
     this.json['toolbar'] = toolbar
     return this
   }

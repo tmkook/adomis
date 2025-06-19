@@ -13,19 +13,20 @@ import Button from '../components/button.js'
 import Dialog from '../components/dialog.js'
 import SettingWidget from './setting.js'
 let setting: SettingWidget
+let loginSetting: Record<string, string> = {
+  'top': '50%',
+  'right': '-3px',
+  'position': 'absolute',
+  'border-radius': '6px !important',
+  'padding': '1.5rem 0.5rem !important',
+}
 
 export default class LoginWidget extends Widget {
   make(): void {
     setting = new SettingWidget(this.i18n)
     this.bootSchema = Page.make()
       .css({
-        '.login-setting': {
-          'top': '45%',
-          'right': '-3px',
-          'position': 'absolute',
-          'border-radius': '6px !important',
-          'padding': '1.5rem 0.5rem !important',
-        },
+        '.login-setting': loginSetting,
       })
       .cssVars({
         '--borderWidth': '0',
@@ -160,6 +161,11 @@ export default class LoginWidget extends Widget {
     return this
   }
 
+  setCaptch(url: string) {
+    this.bootSchema.find('login-captcha').permission(true)
+    this.bootSchema.find('login-captcha-image').src(url)
+  }
+
   disableFooter() {
     this.bootSchema.find('login-footer').remove()
   }
@@ -175,7 +181,15 @@ export default class LoginWidget extends Widget {
   setSideImage(image: string, align: 'left' | 'right' = 'right') {
     let bg = Container.make().id('login-side').className('login-side')
     let hbox = this.bootSchema.find('login-hbox')
-    hbox.attr('columns', bg, align === 'left' ? 'unshift' : 'push')
+    if (align === 'left') {
+      delete loginSetting.right
+      loginSetting.left = '-3px'
+      hbox.attr('columns', bg, 'unshift')
+    } else {
+      delete loginSetting.left
+      loginSetting.right = '-3px'
+      hbox.attr('columns', bg, 'push')
+    }
     this.bootSchema.attr(
       'cssVars',
       {

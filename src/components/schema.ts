@@ -22,13 +22,29 @@ export default class Schema<T extends Schema<T>> {
     return this
   }
 
-  label(label: string) {
-    this.json['label'] = label
+  style(style: Record<string, string>) {
+    this.json['style'] = style
     return this
   }
 
-  name(name: string) {
-    this.json['name'] = name
+  className(name: string | Record<string, boolean>) {
+    this.json['className'] = name
+    return this
+  }
+
+  definitions(definitions: Record<string, object>) {
+    this.json['definitions'] = definitions
+    return this
+  }
+
+  onEvent(event: string, actions: Event[]) {
+    if (!this.json['onEvent']) {
+      this.json['onEvent'] = {}
+    }
+    if (!this.json['onEvent'][event]) {
+      this.json['onEvent'][event] = {}
+    }
+    this.json['onEvent'][event]['actions'] = actions
     return this
   }
 
@@ -63,32 +79,6 @@ export default class Schema<T extends Schema<T>> {
     } else {
       this.json[type] = value
     }
-    return this
-  }
-
-  style(style: Record<string, string>) {
-    this.json['style'] = style
-    return this
-  }
-
-  className(name: string | Record<string, boolean>) {
-    this.json['className'] = name
-    return this
-  }
-
-  definitions(definitions: Record<string, object>) {
-    this.json['definitions'] = definitions
-    return this
-  }
-
-  onEvent(event: string, actions: Event[]) {
-    if (!this.json['onEvent']) {
-      this.json['onEvent'] = {}
-    }
-    if (!this.json['onEvent'][event]) {
-      this.json['onEvent'][event] = {}
-    }
-    this.json['onEvent'][event]['actions'] = actions
     return this
   }
 

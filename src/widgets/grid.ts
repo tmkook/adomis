@@ -7,6 +7,7 @@ import Dialog from '../components/dialog.js'
 import Form from '../components/form.js'
 import Api from '../components/api.js'
 import FormItem from '../components/form_item.js'
+import Checkbox from '../components/checkbox.js'
 
 export default class GridWidget extends Widget {
   make(): void {
@@ -20,11 +21,27 @@ export default class GridWidget extends Widget {
         Form.make()
           .id('filter-form')
           .mode('inline')
-          .body([InputText.make().name('id').label('ID').placeholder('ID')])
+          .body([
+            Checkbox.make()
+              .name('onlyTrashed')
+              .label(this.t('widget.recycle', undefined, 'Recycle')),
+            InputText.make().name('id').label('ID').placeholder('ID'),
+          ])
+          .actions([
+            Action.make()
+              .actionType('reset')
+              .label(this.t('widget.reset', undefined, 'Reset')),
+            Action.make()
+              .actionType('submit')
+              .label(this.t('widget.search', undefined, 'Search'))
+              .icon('fa fa-search')
+              .active(true),
+          ])
       )
       .headerToolbar([
-        'bulkActions',
         'filter-toggler',
+        'export-csv',
+        'bulkActions',
         Action.make()
           .id('create-button')
           .label(this.t('widget.create', undefined, 'Create'))
@@ -69,7 +86,14 @@ export default class GridWidget extends Widget {
                     'dialog',
                     Dialog.make()
                       .title(this.t('widget.show', undefined, 'Show'))
-                      .body(Form.make().id('show-form').static(true))
+                      .body(
+                        Form.make()
+                          .id('show-form')
+                          .static(true)
+                          .body([
+                            InputText.make().id('input-id').name('id').label('ID').disabled(true),
+                          ])
+                      )
                   ),
                 Action.make()
                   .id('edit-button')
@@ -79,7 +103,13 @@ export default class GridWidget extends Widget {
                     'dialog',
                     Dialog.make()
                       .title(this.t('widget.edit', undefined, 'Edit'))
-                      .body(Form.make().id('edit-form'))
+                      .body(
+                        Form.make()
+                          .id('edit-form')
+                          .body([
+                            InputText.make().id('input-id').name('id').label('ID').disabled(true),
+                          ])
+                      )
                   ),
                 Action.make()
                   .id('delete-button')
@@ -151,15 +181,15 @@ export default class GridWidget extends Widget {
   }
 
   setShow(columns: FormItem[], api?: Api) {
-    let obj = this.bootSchema.find('show-form').body(columns)
+    let obj = this.bootSchema.find('show-form').attr('body', columns, 'push')
     if (api) {
-      obj.api(api)
+      obj.initApi(api)
     }
     return this
   }
 
   setEdit(columns: FormItem[], api?: Api) {
-    let obj = this.bootSchema.find('edit-form').body(columns)
+    let obj = this.bootSchema.find('edit-form').attr('body', columns, 'push')
     if (api) {
       obj.api(api)
     }
@@ -191,15 +221,19 @@ export default class GridWidget extends Widget {
     let showApi = new Api(json)
     showApi.method('get')
     showApi.url(json.url + '/${id}')
-    this.setEdit(columns, showApi)
+    this.setShow(columns, showApi)
 
     let deleteApi = new Api(json)
     deleteApi.method('delete')
-    deleteApi.url(json.url + '/${ids}')
-    this.setBatchDelete(deleteApi)
+    deleteApi.url(json.url + '/${id}')
     this.setDelete(deleteApi)
 
-    let list = []
+    let batchDeleteApi = new Api(json)
+    batchDeleteApi.method('delete')
+    batchDeleteApi.url(json.url + '/${ids}')
+    this.setBatchDelete(batchDeleteApi)
+
+    let list = [ColumnItem.make().name('id').id('column-id').label('ID')]
     for (let item of columns) {
       let column = item.toJSON()
       let row = ColumnItem.make().name(column.name).label(column.label)
