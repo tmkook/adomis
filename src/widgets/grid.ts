@@ -124,36 +124,44 @@ export default class GridWidget extends Widget {
 
   disableOperation() {
     this.bootSchema.find('operation').remove()
+    return this
   }
 
   disableCreate() {
     this.bootSchema.find('create-button').remove()
+    return this
   }
 
   disableShow() {
     this.bootSchema.find('show-button').remove()
+    return this
   }
 
   disableEdit() {
     this.bootSchema.find('edit-button').remove()
+    return this
   }
 
   disableDelete() {
     this.bootSchema.find('delete-button').remove()
+    return this
   }
 
   disableBatchDelete() {
     this.bootSchema.find('batch-delete').remove()
+    return this
   }
 
   disableFilter() {
     this.bootSchema.remove('filter')
     this.bootSchema.removeArrayItem('headerToolbar', 'filter-toggler')
+    return this
   }
 
   disableBulkActions() {
     this.bootSchema.remove('bulkActions')
     this.bootSchema.removeArrayItem('headerToolbar', 'bulkActions')
+    return this
   }
 
   setList(columns: ColumnItem[], api?: Api) {

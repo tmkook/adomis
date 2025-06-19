@@ -46,13 +46,16 @@ export default class SettingWidget extends Widget {
 
   disableDarkness() {
     this.bootSchema.find('setting-darkness')?.remove()
+    return this
   }
 
   disableLocale() {
     this.bootSchema.find('setting-locale')?.remove()
+    return this
   }
 
   disableTheme() {
     this.bootSchema.find('setting-theme')?.remove()
+    return this
   }
 }

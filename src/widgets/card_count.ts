@@ -12,7 +12,7 @@ import Remark from '../components/remark.js'
 export default class CardCountWidget extends Widget {
   make(): void {
     this.bootSchema = Card.make()
-      .header(Header.make().subTitle('Page Views'))
+      .header(Header.make().id('header').subTitle('Page Views'))
       .body([
         Flex.make()
           .justify('start')
@@ -40,13 +40,16 @@ export default class CardCountWidget extends Widget {
       .find('trend')
       .tpl(`<span class="ml-2 label label-${classname}">${symbol} ${rate}</span>`)
     this.bootSchema.find('count').value(count)
+    return this
   }
 
   setTooltips(text: string) {
     this.bootSchema.find('tooltips').content(text)
+    return this
   }
 
   setTitle(title: string) {
     this.bootSchema.find('header').subTitle(title)
+    return this
   }
 }

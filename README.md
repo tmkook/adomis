@@ -19,6 +19,8 @@
 - 支持 Typescript 类型提示
 - 链式调用，简洁优雅，灵活可扩展
 - 内置丰富的常用页面部件
+- 支持主题切换和暗黑模式
+- 支持 i18n 国际化
 
 # 安装
 
@@ -149,18 +151,24 @@ second.permission(false)
 
 ```typescript
 import render from 'adomis/render'
-import Api from 'adomis/components/api'
 import LoginWidget from 'adomis/widgets/login'
 let login = new LoginWidget(ctx.i18n)
 
-// 渲染HTML页面
+// 设置登录接口
+login.setApi(api)
+
+// 设置验证码接口
+login.setCaptcha('/captcha')
+
+// 设置侧边图片
+login.setSideImage('/bg.jpg', 'left')
+
+// 渲染页面
 return render(login)
 ```
 
-<div align="center">
-  <img src="https://github.com/tmkook/adomis/blob/main/docs/img/login-simple.jpg?raw=true" width="100%" alt="adova" />
-</div>
+# 部件预览
 
 <div align="center">
-  <img src="https://github.com/tmkook/adomis/blob/main/docs/img/login-side.jpg?raw=true" width="100%" alt="adova" />
+  <img src="https://github.com/tmkook/adomis/blob/main/docs/img/example.jpg?raw=true" width="100%" alt="adova" />
 </div>

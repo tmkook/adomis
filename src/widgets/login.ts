@@ -164,18 +164,22 @@ export default class LoginWidget extends Widget {
   setCaptch(url: string) {
     this.bootSchema.find('login-captcha').permission(true)
     this.bootSchema.find('login-captcha-image').src(url)
+    return this
   }
 
   disableFooter() {
     this.bootSchema.find('login-footer').remove()
+    return this
   }
 
   disableCopyright() {
     this.bootSchema.find('login-copyright').remove()
+    return this
   }
 
   disableSetting() {
     this.bootSchema.find('login-setting').remove()
+    return this
   }
 
   setSideImage(image: string, align: 'left' | 'right' = 'right') {

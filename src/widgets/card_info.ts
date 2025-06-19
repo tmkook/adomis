@@ -55,13 +55,16 @@ export default class CardInfoWidget extends Widget {
 
   setLogo(url: string) {
     this.bootSchema.find('logo').src(url)
+    return this
   }
 
   setTitle(title: string) {
     this.bootSchema.find('title').body(title)
+    return this
   }
 
   setLinks(links: object[]) {
     this.bootSchema.find('links').items(links)
+    return this
   }
 }
