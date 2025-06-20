@@ -25,7 +25,7 @@ export default class GridWidget extends Widget {
             Checkbox.make()
               .name('onlyTrashed')
               .label(this.t('widget.recycle', undefined, 'Recycle')),
-            InputText.make().name('id').label('ID').placeholder('ID'),
+            InputText.make().name('id').label('ID').placeholder('ID').size('sm'),
           ])
           .actions([
             Action.make()
@@ -241,7 +241,7 @@ export default class GridWidget extends Widget {
     batchDeleteApi.url(json.url + '/${ids}')
     this.setBatchDelete(batchDeleteApi)
 
-    let list = [ColumnItem.make().name('id').id('column-id').label('ID')]
+    let list = [ColumnItem.make().name('id').id('column-id').label('ID').sortable(true)]
     for (let item of columns) {
       let column = item.toJSON()
       let row = ColumnItem.make().name(column.name).label(column.label)

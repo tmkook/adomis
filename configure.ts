@@ -13,10 +13,20 @@
 */
 
 import ConfigureCommand from '@adonisjs/core/commands/configure'
-import { stubsRoot } from './stubs/main.js'
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import extract from 'extract-zip'
 import fs from 'node:fs'
 
+/**
+ * Path to the root directory where the stubs are stored. We use
+ * this path within commands and the configure hook
+ */
+export const rootPath = dirname(fileURLToPath(import.meta.url))
+
+/*
+ * adonis configure call
+ */
 export async function configure(_command: ConfigureCommand) {
   const codemods = await _command.createCodemods()
   let overwrite = codemods.overwriteExisting
@@ -40,14 +50,18 @@ export async function configure(_command: ConfigureCommand) {
   }
 
   // i18n stubs
-  await codemods.makeUsingStub(stubsRoot, '/app/middleware/detect_user_locale_middleware.stub', {})
+  await codemods.makeUsingStub(
+    rootPath,
+    '/stubs/app/middleware/detect_user_locale_middleware.stub',
+    {}
+  )
 
   // reset overwrite
   codemods.overwriteExisting = overwrite
 
   // lang stubs
-  await codemods.makeUsingStub(stubsRoot, '/lang/en/widget.stub', {})
-  await codemods.makeUsingStub(stubsRoot, '/lang/zh/widget.stub', {})
+  await codemods.makeUsingStub(rootPath, '/stubs/lang/en/widget.stub', {})
+  await codemods.makeUsingStub(rootPath, '/stubs/lang/zh/widget.stub', {})
 
   // extract jssdk
   let target = _command.app.publicPath('assets')
@@ -62,8 +76,11 @@ export async function configure(_command: ConfigureCommand) {
   }
 }
 
+/**
+ * extract amis jssdk
+ */
 export async function publish(target: string): Promise<boolean> {
-  let assets = `${stubsRoot}/public/assets`
+  let assets = `${rootPath}/stubs/public/assets`
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true })
   }

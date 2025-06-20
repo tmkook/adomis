@@ -8,6 +8,11 @@ import Api from './api.js'
 export default class Options extends FormItem {
   protected json: Record<string, any> = { type: 'select' }
 
+  size(size: 'xs' | 'sm' | 'md' | 'lg') {
+    this.json['size'] = size
+    return this
+  }
+
   options(options: object[] | string[]) {
     this.json['options'] = options
     return this
