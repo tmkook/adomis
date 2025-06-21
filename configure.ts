@@ -63,16 +63,17 @@ export async function configure(_command: ConfigureCommand) {
   await codemods.makeUsingStub(rootPath, '/stubs/lang/en/widget.stub', {})
   await codemods.makeUsingStub(rootPath, '/stubs/lang/zh/widget.stub', {})
 
-  // extract jssdk
-  let target = _command.app.publicPath('assets')
+  // extract amis
+  let target = _command.app.publicPath('amis')
   if (!fs.existsSync(target) || overwrite) {
     if (await publish(target)) {
-      _command.logger.success('[extract]: public/assets/jssdk')
+      _command.logger.action('create public/amis').succeeded()
+      console.log('ignore amis, please run `echo "public/amis" >> .gitignore`')
     } else {
-      _command.logger.error('[extract error]: public/assets/jssdk')
+      _command.logger.action('create public/amis').failed('Publish failed')
     }
   } else {
-    _command.logger.info('[skip]: public/assets/jssdk')
+    _command.logger.action('create public/amis').skipped()
   }
 }
 
@@ -80,12 +81,12 @@ export async function configure(_command: ConfigureCommand) {
  * extract amis jssdk
  */
 export async function publish(target: string): Promise<boolean> {
-  let assets = `${rootPath}/stubs/public/assets`
+  let assets = `${rootPath}/stubs/public`
   if (!fs.existsSync(target)) {
     fs.mkdirSync(target, { recursive: true })
   }
   await extract(`${assets}/jssdk.zip`, { dir: target })
-  fs.copyFileSync(`${assets}/adova.js`, `${target}/jssdk/adova.js`)
-  fs.copyFileSync(`${assets}/history.js`, `${target}/jssdk/history.js`)
-  return fs.existsSync(`${target}/jssdk/adova.js`)
+  fs.copyFileSync(`${assets}/adomis.js`, `${target}/adomis.js`)
+  fs.copyFileSync(`${assets}/history.js`, `${target}/history.js`)
+  return fs.existsSync(`${target}/adomis.js`)
 }

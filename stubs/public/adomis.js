@@ -1,4 +1,4 @@
-const Adova = new (function () {
+const Adomis = new (function () {
   const history = HistoryLibrary.createHashHistory()
   function normalizeLink(to, location = history.location) {
     to = to || ''
@@ -105,6 +105,19 @@ const Adova = new (function () {
     }
   }
 
+  function jssdk(file) {
+    let links = document.querySelectorAll('link')
+    for (let link of links) {
+      if (link.href.indexOf('jssdk') > 0) {
+        let href = link.href.split('/')
+        href.pop()
+        href.push(file)
+        return href.join('/')
+      }
+    }
+    return file
+  }
+
   function nowTheme(theme, darkness) {
     if (darkness && theme != 'dark') {
       const now = new Date()
@@ -114,7 +127,7 @@ const Adova = new (function () {
       }
     }
     let link = document.createElement('link')
-    link.href = '/assets/jssdk/' + theme + '.css'
+    link.href = jssdk(`${theme}.css`)
     link.rel = 'stylesheet'
     document.head.appendChild(link)
     return theme

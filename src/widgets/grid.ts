@@ -8,6 +8,7 @@ import Form from '../components/form.js'
 import Api from '../components/api.js'
 import FormItem from '../components/form_item.js'
 import Checkbox from '../components/checkbox.js'
+import Schema from '../components/schema.js'
 
 export default class GridWidget extends Widget {
   make(): void {
@@ -39,9 +40,8 @@ export default class GridWidget extends Widget {
           ])
       )
       .headerToolbar([
-        'filter-toggler',
-        'export-csv',
-        'bulkActions',
+        Schema.make().type('filter-toggler'),
+        Schema.make().type('bulkActions'),
         Action.make()
           .id('create-button')
           .label(this.t('widget.create', undefined, 'Create'))

@@ -7,7 +7,7 @@ let html = `
 <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<link rel="stylesheet" href="/assets/jssdk/iconfont.css" />
+<link rel="stylesheet" href="/amis/jssdk/iconfont.css" />
 </head>
 <body style="margin:0;padding:0;height:100%">
     <div id="root">
@@ -15,11 +15,11 @@ let html = `
         <div class="loading"></div>
     </div>
 </body>
-<script src="/assets/jssdk/sdk.js"></script>
-<script src="/assets/jssdk/rest.js"></script>
-<script src="/assets/jssdk/history.js"></script>
-<script src="/assets/jssdk/adova.js"></script>
-<script>Adova.render({{@schema}}, {{@props}}, {{@env}})</script>
+<script src="/amis/jssdk/sdk.js"></script>
+<script src="/amis/jssdk/rest.js"></script>
+<script src="/amis/history.js"></script>
+<script src="/amis/adomis.js"></script>
+<script>Adomis.render({{@schema}}, {{@props}}, {{@env}})</script>
 </html>
 `
 export default function render(

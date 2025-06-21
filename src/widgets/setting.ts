@@ -30,7 +30,7 @@ export default class SettingWidget extends Widget {
           ),
       ])
       .onEvent('submit', [
-        Event.make().actionType('custom').action('script', 'Adova.settings(event.data)'),
+        Event.make().actionType('custom').action('script', 'Adomis.settings(event.data)'),
       ])
   }
 
