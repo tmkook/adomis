@@ -1,7 +1,7 @@
 {
   "name": "adomis",
   "description": "amis for adonisjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "node": ">=20.6.0"
   },
@@ -66,7 +66,8 @@
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "@adonisjs/core": "^6.2.0"
+    "@adonisjs/core": "^6.2.0",
+    "@adonisjs/lucid": "^21.6.1"
   },
   "publishConfig": {
     "access": "public",
@@ -89,6 +90,7 @@
   },
   "prettier": "@adonisjs/prettier-config",
   "dependencies": {
+    "@adonisjs/lucid": "^21.6.1",
     "extract-zip": "^2.0.1"
   }
 }

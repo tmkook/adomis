@@ -29,14 +29,14 @@ export default class DetectUserLocaleMiddleware {
    * Feel free to use different mechanism for finding user language.
    */
   protected getRequestLocale(ctx: HttpContext) {
-    // const userLanguages = ctx.request.languages()
-    // return i18nManager.getSupportedLocaleFor(userLanguages)
-
     // adomis locale from settings cookie
     let settings = ctx.request.plainCookie('settings')
     if(settings && settings.locale){
         return i18nManager.getSupportedLocaleFor(settings.locale)
     }
+
+    const userLanguages = ctx.request.languages()
+    return i18nManager.getSupportedLocaleFor(userLanguages)
   }
 
   async handle(ctx: HttpContext, next: NextFn) {
