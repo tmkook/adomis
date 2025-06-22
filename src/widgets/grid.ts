@@ -11,116 +11,114 @@ import Checkbox from '../components/checkbox.js'
 import Schema from '../components/schema.js'
 
 export default class GridWidget extends Widget {
-  make(): void {
-    this.bootSchema = Crud.make()
-      .syncLocation(false)
-      .filterTogglable(true)
-      .filterDefaultVisible(false)
-      .defaultParams({ orderBy: 'id', orderDir: 'desc' })
-      .footerToolbar(['statistics', 'switch-per-page', 'pagination'])
-      .filter(
-        Form.make()
-          .id('filter-form')
-          .mode('inline')
-          .body([
-            Checkbox.make()
-              .name('onlyTrashed')
-              .label(this.t('widget.recycle', undefined, 'Recycle')),
-            InputText.make().name('id').label('ID').placeholder('ID').size('sm'),
-          ])
-          .actions([
-            Action.make()
-              .actionType('reset')
-              .label(this.t('widget.reset', undefined, 'Reset')),
-            Action.make()
-              .actionType('submit')
-              .label(this.t('widget.search', undefined, 'Search'))
-              .icon('fa fa-search')
-              .active(true),
-          ])
-      )
-      .headerToolbar([
-        Schema.make().type('filter-toggler'),
-        Schema.make().type('bulkActions'),
-        Action.make()
-          .id('create-button')
-          .label(this.t('widget.create', undefined, 'Create'))
-          .icon('fa fa-plus')
-          .align('right')
-          .level('primary')
-          .actionType('dialog')
-          .attr(
-            'dialog',
-            Dialog.make()
-              .title(this.t('widget.create', undefined, 'Create'))
-              .body(Form.make().id('create-form'))
-          ),
-      ])
-      .bulkActions([
-        Action.make()
-          .id('batch-delete')
-          .actionType('ajax')
-          .label(this.t('widget.batchDelete', undefined, 'Batch Delete'))
-          .level('danger')
-          .confirmText(this.t('widget.deleteConfirm', undefined, 'Are you sure delete?')),
-      ])
-      .columns([
-        ColumnItem.make()
-          .id('operation')
-          .type('operation')
-          .label(this.t('widget.operation', undefined, 'Operation'))
-          .align('right')
-          .width('50')
-          .buttons([
-            DropdownButton.make()
-              .id('operation-buttons')
-              .icon('fa fa-ellipsis-h')
-              .level('link')
-              .hideCaret(true)
-              .buttons([
-                Action.make()
-                  .id('show-button')
-                  .label(this.t('widget.show', undefined, 'Show'))
-                  .actionType('dialog')
-                  .attr(
-                    'dialog',
-                    Dialog.make()
-                      .title(this.t('widget.show', undefined, 'Show'))
-                      .body(
-                        Form.make()
-                          .id('show-form')
-                          .static(true)
-                          .body([
-                            InputText.make().id('input-id').name('id').label('ID').disabled(true),
-                          ])
-                      )
-                  ),
-                Action.make()
-                  .id('edit-button')
-                  .label(this.t('widget.edit', undefined, 'Edit'))
-                  .actionType('dialog')
-                  .attr(
-                    'dialog',
-                    Dialog.make()
-                      .title(this.t('widget.edit', undefined, 'Edit'))
-                      .body(
-                        Form.make()
-                          .id('edit-form')
-                          .body([
-                            InputText.make().id('input-id').name('id').label('ID').disabled(true),
-                          ])
-                      )
-                  ),
-                Action.make()
-                  .id('delete-button')
-                  .actionType('ajax')
-                  .label(this.t('widget.delete', undefined, 'Delete'))
-                  .level('link')
-                  .confirmText(this.t('widget.deleteConfirm', undefined, 'Are you sure delete?')),
-              ]),
-          ]),
-      ])
-  }
+  protected bootSchema = Crud.make()
+    .syncLocation(false)
+    .filterTogglable(true)
+    .filterDefaultVisible(false)
+    .defaultParams({ orderBy: 'id', orderDir: 'desc' })
+    .footerToolbar(['statistics', 'switch-per-page', 'pagination'])
+    .filter(
+      Form.make()
+        .id('filter-form')
+        .mode('inline')
+        .body([
+          Checkbox.make()
+            .name('onlyTrashed')
+            .label(this.t('widget.recycle', undefined, 'Recycle')),
+          InputText.make().name('id').label('ID').placeholder('ID').size('sm'),
+        ])
+        .actions([
+          Action.make()
+            .actionType('reset')
+            .label(this.t('widget.reset', undefined, 'Reset')),
+          Action.make()
+            .actionType('submit')
+            .label(this.t('widget.search', undefined, 'Search'))
+            .icon('fa fa-search')
+            .active(true),
+        ])
+    )
+    .headerToolbar([
+      Schema.make().type('filter-toggler'),
+      Schema.make().type('bulkActions'),
+      Action.make()
+        .id('create-button')
+        .label(this.t('widget.create', undefined, 'Create'))
+        .icon('fa fa-plus')
+        .align('right')
+        .level('primary')
+        .actionType('dialog')
+        .attr(
+          'dialog',
+          Dialog.make()
+            .title(this.t('widget.create', undefined, 'Create'))
+            .body(Form.make().id('create-form'))
+        ),
+    ])
+    .bulkActions([
+      Action.make()
+        .id('batch-delete')
+        .actionType('ajax')
+        .label(this.t('widget.batchDelete', undefined, 'Batch Delete'))
+        .level('danger')
+        .confirmText(this.t('widget.deleteConfirm', undefined, 'Are you sure delete?')),
+    ])
+    .columns([
+      ColumnItem.make()
+        .id('operation')
+        .type('operation')
+        .label(this.t('widget.operation', undefined, 'Operation'))
+        .align('right')
+        .width('50')
+        .buttons([
+          DropdownButton.make()
+            .id('operation-buttons')
+            .icon('fa fa-ellipsis-h')
+            .level('link')
+            .hideCaret(true)
+            .buttons([
+              Action.make()
+                .id('show-button')
+                .label(this.t('widget.show', undefined, 'Show'))
+                .actionType('dialog')
+                .attr(
+                  'dialog',
+                  Dialog.make()
+                    .title(this.t('widget.show', undefined, 'Show'))
+                    .body(
+                      Form.make()
+                        .id('show-form')
+                        .static(true)
+                        .body([
+                          InputText.make().id('input-id').name('id').label('ID').disabled(true),
+                        ])
+                    )
+                ),
+              Action.make()
+                .id('edit-button')
+                .label(this.t('widget.edit', undefined, 'Edit'))
+                .actionType('dialog')
+                .attr(
+                  'dialog',
+                  Dialog.make()
+                    .title(this.t('widget.edit', undefined, 'Edit'))
+                    .body(
+                      Form.make()
+                        .id('edit-form')
+                        .body([
+                          InputText.make().id('input-id').name('id').label('ID').disabled(true),
+                        ])
+                    )
+                ),
+              Action.make()
+                .id('delete-button')
+                .actionType('ajax')
+                .label(this.t('widget.delete', undefined, 'Delete'))
+                .level('link')
+                .confirmText(this.t('widget.deleteConfirm', undefined, 'Are you sure delete?')),
+            ]),
+        ]),
+    ])
 
   disableOperation() {
     this.bootSchema.find('operation').remove()
@@ -204,12 +202,12 @@ export default class GridWidget extends Widget {
     return this
   }
 
-  setDelete(api?: Api) {
+  setDelete(api: Api) {
     this.bootSchema.find('delete-button').api(api)
     return this
   }
 
-  setBatchDelete(api?: Api) {
+  setBatchDelete(api: Api) {
     this.bootSchema.find('batch-delete').api(api)
     return this
   }

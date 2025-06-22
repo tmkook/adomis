@@ -10,18 +10,20 @@ import Remark from '../components/remark.js'
  * @docs https://echarts.apache.org/examples/zh/index.html
  */
 export default class CardCountWidget extends Widget {
-  make(): void {
-    this.bootSchema = Card.make()
-      .header(Header.make().id('header').subTitle('Page Views'))
-      .body([
-        Flex.make()
-          .justify('start')
-          .alignItems('center')
-          .items([Number.make().id('count').className('text-2xl'), Tpl.make().id('trend')]),
-      ])
-      .toolbar([
-        Remark.make().id('tooltips').content('Page view count').placement('bottom').shape('circle'),
-      ])
+  protected bootSchema = Card.make()
+    .header(Header.make().id('header').subTitle('Page Views'))
+    .body([
+      Flex.make()
+        .justify('start')
+        .alignItems('center')
+        .items([Number.make().id('count').className('text-2xl'), Tpl.make().id('trend')]),
+    ])
+    .toolbar([
+      Remark.make().id('tooltips').content('Page view count').placement('bottom').shape('circle'),
+    ])
+
+  constructor(i18n?: any) {
+    super(i18n)
     this.setCount('1000', '10%', 'up')
   }
 

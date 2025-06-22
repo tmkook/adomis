@@ -68,6 +68,17 @@ Container.make()
 // 输出: {type:'container', className:'my-container', bodyClassName:'my-body', style:{color:'red'}, body:'Hello World'}
 ```
 
+或者使用内置的 amis 方法来创建一个组件对象。
+
+```typescript
+import amis from 'adomis/amis'
+amis('container')
+  .className('my-container')
+  .bodyClassName('my-body')
+  .style({ color: 'red' })
+  .body('Hello World')
+ ```
+
 # 基础组件
 
 你可以在 `adomis` 中找到几乎所有的 `amis` 组件，他们都都继承自 `Schema` 类，都拥有以下公共方法。

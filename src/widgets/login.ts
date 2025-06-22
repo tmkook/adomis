@@ -12,7 +12,7 @@ import Checkbox from '../components/checkbox.js'
 import Button from '../components/button.js'
 import Dialog from '../components/dialog.js'
 import SettingWidget from './setting.js'
-let setting: SettingWidget
+let setting = new SettingWidget()
 let loginSetting: Record<string, string> = {
   'top': '50%',
   'right': '-3px',
@@ -22,138 +22,140 @@ let loginSetting: Record<string, string> = {
 }
 
 export default class LoginWidget extends Widget {
-  make(): void {
-    setting = new SettingWidget(this.i18n)
-    this.bootSchema = Page.make()
-      .css({
-        '.login-setting': loginSetting,
-      })
-      .cssVars({
-        '--borderWidth': '0',
-        '--Page-main-bg': 'none',
-        '--Form-item-mobile-gap': '1rem',
-        '--Panel-borderRadius': '10pt',
-        '--Panel-heading-bottom-border-style': 'none',
-        '--Panel-footer-top-border-style': 'none',
-        '--Panel-marginBottom': 'none',
-        '--Panel-headingPadding': '2rem',
-        '--Panel-bodyPadding': '0 2rem 2rem 2rem',
-        '--Panel-footerPadding': '2rem',
-        '--Panel-heading-bg-color': 'none',
-      })
-      .body([
-        Hbox.make()
-          .id('login-hbox')
-          .valign('middle')
-          .align('center')
-          .style({ height: '100%' })
-          .columns([
-            Form.make()
-              .id('login-form')
-              .panelClassName('login-form')
-              .title(' ')
-              .submitText('')
-              .style({ maxWidth: '360pt' })
-              .title([
-                Flex.make()
-                  .justify('center')
-                  .items([
-                    Image.make()
-                      .id('login-logo')
-                      .src('https://github.com/tmkook/adomis/blob/main/docs/img/logo.png?raw=true')
-                      .imageMode('original')
-                      .innerClassName('no-border')
-                      .width(50)
-                      .height(50)
-                      .placeholder('LOGO'),
-                  ]),
-                Container.make()
-                  .id('login-title')
-                  .className('text-center text-xl font-bold mt-2')
-                  .body(this.t('widget.welcome', undefined, 'Welcome Back')),
-              ])
-              .body([
-                InputText.make()
-                  .id('login-username')
-                  .name('username')
-                  .label(false)
-                  .placeholder(this.t('widget.username', undefined, 'Username'))
-                  .required(true)
-                  .validations({ minLength: 5, maxLength: 32 })
-                  .addOn({ type: 'text', position: 'left', icon: 'fa fa-user' }),
-                InputPassword.make()
-                  .id('login-password')
-                  .name('password')
-                  .label(false)
-                  .placeholder(this.t('widget.password', undefined, 'Password'))
-                  .required(true)
-                  .validations({ minLength: 5, maxLength: 32 })
-                  .addOn({ type: 'text', position: 'left', icon: 'fa fa-lock' }),
-                Flex.make()
-                  .id('login-captcha')
-                  .justify('space-between')
-                  .alignItems('start')
-                  .permission(false)
-                  .items([
-                    InputText.make()
-                      .id('login-captcha-input')
-                      .name('captcha')
-                      .label(false)
-                      .required(true)
-                      .placeholder(this.t('widget.captcha', undefined, 'Captcha'))
-                      .className('w-3/4')
-                      .addOn({ type: 'text', position: 'left', icon: 'fa fa-pen' }),
-                    Image.make()
-                      .id('login-captcha-image')
-                      .imageMode('original')
-                      .className('login-captcha')
-                      .width(100)
-                      .height(32)
-                      .onEvent('click', [
-                        Event.make()
-                          .actionType('custom')
-                          .action(
-                            'script',
-                            'document.querySelector(".login-captcha img").src = document.querySelector(".login-captcha img").src'
-                          ),
-                      ]),
-                  ]),
-                Checkbox.make()
-                  .name('remember')
-                  .trueValue(true)
-                  .option(this.t('widget.remember', undefined, 'Remember me')),
-                Button.make()
-                  .label(this.t('widget.login', undefined, 'Login'))
-                  .actionType('submit')
-                  .level('primary')
-                  .rightIcon('fa fa-arrow-right')
-                  .style({ width: '100%', margin: '0 0 1rem 0' }),
-                Flex.make()
-                  .id('login-footer')
-                  .justify('center')
-                  .alignItems('center')
-                  .items([
-                    Container.make()
-                      .id('login-copyright')
-                      .body(this.t('widget.copyright', undefined, 'Powerd by Adova')),
-                  ]),
-              ]),
-          ]),
-        Button.make()
-          .id('login-setting')
-          .className('login-setting')
-          .icon('fa fa-cog')
-          .onEvent('click', [
-            Event.make()
-              .actionType('dialog')
-              .action(
-                'dialog',
-                Dialog.make()
-                  .title(this.t('widget.setting', undefined, 'Setting'))
-                  .body(setting)
-              ),
-          ]),
-      ])
+  protected bootSchema = Page.make()
+    .css({
+      '.login-setting': loginSetting,
+    })
+    .cssVars({
+      '--borderWidth': '0',
+      '--Page-main-bg': 'none',
+      '--Form-item-mobile-gap': '1rem',
+      '--Panel-borderRadius': '10pt',
+      '--Panel-heading-bottom-border-style': 'none',
+      '--Panel-footer-top-border-style': 'none',
+      '--Panel-marginBottom': 'none',
+      '--Panel-headingPadding': '2rem',
+      '--Panel-bodyPadding': '0 2rem 2rem 2rem',
+      '--Panel-footerPadding': '2rem',
+      '--Panel-heading-bg-color': 'none',
+    })
+    .body([
+      Hbox.make()
+        .id('login-hbox')
+        .valign('middle')
+        .align('center')
+        .style({ height: '100%' })
+        .columns([
+          Form.make()
+            .id('login-form')
+            .panelClassName('login-form')
+            .title(' ')
+            .submitText('')
+            .style({ maxWidth: '360pt' })
+            .title([
+              Flex.make()
+                .justify('center')
+                .items([
+                  Image.make()
+                    .id('login-logo')
+                    .src('https://github.com/tmkook/adomis/blob/main/docs/img/logo.png?raw=true')
+                    .imageMode('original')
+                    .innerClassName('no-border')
+                    .width(50)
+                    .height(50)
+                    .placeholder('LOGO'),
+                ]),
+              Container.make()
+                .id('login-title')
+                .className('text-center text-xl font-bold mt-2')
+                .body(this.t('widget.welcome', undefined, 'Welcome Back')),
+            ])
+            .body([
+              InputText.make()
+                .id('login-username')
+                .name('username')
+                .label(false)
+                .placeholder(this.t('widget.username', undefined, 'Username'))
+                .required(true)
+                .validations({ minLength: 5, maxLength: 32 })
+                .addOn({ type: 'text', position: 'left', icon: 'fa fa-user' }),
+              InputPassword.make()
+                .id('login-password')
+                .name('password')
+                .label(false)
+                .placeholder(this.t('widget.password', undefined, 'Password'))
+                .required(true)
+                .validations({ minLength: 5, maxLength: 32 })
+                .addOn({ type: 'text', position: 'left', icon: 'fa fa-lock' }),
+              Flex.make()
+                .id('login-captcha')
+                .justify('space-between')
+                .alignItems('start')
+                .permission(false)
+                .items([
+                  InputText.make()
+                    .id('login-captcha-input')
+                    .name('captcha')
+                    .label(false)
+                    .required(true)
+                    .placeholder(this.t('widget.captcha', undefined, 'Captcha'))
+                    .className('w-3/4')
+                    .addOn({ type: 'text', position: 'left', icon: 'fa fa-pen' }),
+                  Image.make()
+                    .id('login-captcha-image')
+                    .imageMode('original')
+                    .className('login-captcha')
+                    .width(100)
+                    .height(32)
+                    .onEvent('click', [
+                      Event.make()
+                        .actionType('custom')
+                        .action(
+                          'script',
+                          'document.querySelector(".login-captcha img").src = document.querySelector(".login-captcha img").src'
+                        ),
+                    ]),
+                ]),
+              Checkbox.make()
+                .name('remember')
+                .trueValue(true)
+                .option(this.t('widget.remember', undefined, 'Remember me')),
+              Button.make()
+                .label(this.t('widget.login', undefined, 'Login'))
+                .actionType('submit')
+                .level('primary')
+                .rightIcon('fa fa-arrow-right')
+                .style({ width: '100%', margin: '0 0 1rem 0' }),
+              Flex.make()
+                .id('login-footer')
+                .justify('center')
+                .alignItems('center')
+                .items([
+                  Container.make()
+                    .id('login-copyright')
+                    .body(this.t('widget.copyright', undefined, 'Powerd by Adova')),
+                ]),
+            ]),
+        ]),
+      Button.make()
+        .id('login-setting')
+        .className('login-setting')
+        .icon('fa fa-cog')
+        .onEvent('click', [
+          Event.make()
+            .actionType('dialog')
+            .action(
+              'dialog',
+              Dialog.make()
+                .title(this.t('widget.setting', undefined, 'Setting'))
+                .body(setting)
+            ),
+        ]),
+    ])
+
+  constructor(i18n?: any) {
+    super(i18n)
+    setting.setI18n(i18n)
   }
 
   setApi(api: string | object) {

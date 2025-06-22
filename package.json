@@ -17,6 +17,7 @@
   "exports": {
     ".": "./build/index.js",
     "./types": "./build/src/types.js",
+    "./amis": "./build/src/amis.js",
     "./render": "./build/src/render.js",
     "./widgets/*": "./build/src/widgets/*.js",
     "./components/*": "./build/src/components/*.js"
