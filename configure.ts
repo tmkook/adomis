@@ -29,43 +29,10 @@ export const rootPath = dirname(fileURLToPath(import.meta.url))
  */
 export async function configure(_command: ConfigureCommand) {
   const codemods = await _command.createCodemods()
-  let overwrite = codemods.overwriteExisting
-  if (!fs.existsSync(_command.app.middlewarePath('detect_user_locale_middleware.ts'))) {
-    // install adonisjs modules
-    const packages = [{ name: '@adonisjs/i18n', isDevDependency: false }]
-    await codemods.installPackages(packages)
-
-    // configure modules
-    for (let pkg of packages) {
-      await _command.kernel.exec('configure', [
-        pkg.name,
-        '--force',
-        '--verbose',
-        '--package-manager=npm',
-      ])
-    }
-
-    // force middleware
-    codemods.overwriteExisting = true
-  }
-
-  // i18n stubs
-  await codemods.makeUsingStub(
-    rootPath,
-    '/stubs/app/middleware/detect_user_locale_middleware.stub',
-    {}
-  )
-
-  // reset overwrite
-  codemods.overwriteExisting = overwrite
-
-  // lang stubs
-  await codemods.makeUsingStub(rootPath, '/stubs/lang/en/widget.stub', {})
-  await codemods.makeUsingStub(rootPath, '/stubs/lang/zh/widget.stub', {})
 
   // extract amis
   let target = _command.app.publicPath('amis')
-  if (!fs.existsSync(target) || overwrite) {
+  if (!fs.existsSync(target) || codemods.overwriteExisting) {
     if (await publish(target)) {
       _command.logger.action('create public/amis').succeeded()
       console.log('ignore amis, please run `echo "public/amis" >> .gitignore`')

@@ -29,6 +29,12 @@ export default class Action extends Schema<Action> {
     return this
   }
 
+  dialog(dialog: object) {
+    this.json['actionType'] = 'dialog'
+    this.json['dialog'] = dialog
+    return this
+  }
+
   label(label: string) {
     this.json['label'] = label
     return this

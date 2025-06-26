@@ -11,16 +11,7 @@
 
 # 简介
 
-`adomis` 是 `adonisjs` 的扩展包，基于 `amis` 封装了 150+ 组件库，只需很少的代码即可构建出漂亮且功能完善的 web 界面。让开发者告别冗杂的 JSON 代码，提升开发效率，对后端开发者非常友好。使用前请确保你了解 `adonisjs` 框架。如果你熟悉 `laravel` 那么你可以无痛地迁移到 `adonisjs` 因为他们的使用方式几乎一致。
-
-# 特性
-
-- 无需编写 JSON、HTML、CSS 代码
-- 支持 Typescript 类型提示
-- 链式调用，简洁优雅，灵活可扩展
-- 内置丰富的常用页面部件
-- 支持主题切换和暗黑模式
-- 支持 i18n 国际化
+`adomis` 是 `adonisjs` 的扩展包，基于 `amis` 封装了 150+ 组件库，TypeScript 类型提示全程护航。链式调用构建 Web 界面，用后端思维写 UI 让你从前端中解放。
 
 # 安装
 
@@ -40,6 +31,13 @@ node ace add adomis
 
 ```shell
 node ace configure adomis
+```
+
+如果你想在 adonijs 框架之外使用也可以通过 npm 命令进行安装发布
+
+```shell
+npm i adomis
+node node_modules/adomis/bin/publish.js
 ```
 
 # 工作原理
@@ -77,7 +75,7 @@ amis('container')
   .bodyClassName('my-body')
   .style({ color: 'red' })
   .body('Hello World')
- ```
+```
 
 # 基础组件
 
@@ -155,31 +153,3 @@ second.remove()
 // 不渲染组件
 second.permission(false)
 ```
-
-# 内置部件
-
-在 adomis 中内置了一些常用的部件，他们都放置在 `adomis/widgets` 目录，只需少量配置即可构建漂亮的页面。
-
-```typescript
-import render from 'adomis/render'
-import LoginWidget from 'adomis/widgets/login'
-let login = new LoginWidget(ctx.i18n)
-
-// 设置登录接口
-login.setApi(api)
-
-// 设置验证码接口
-login.setCaptcha('/captcha')
-
-// 设置侧边图片
-login.setSideImage('/bg.jpg', 'left')
-
-// 渲染页面
-return render(login)
-```
-
-# 部件预览
-
-<div align="center">
-  <img src="https://github.com/tmkook/adomis/blob/main/docs/img/example.jpg?raw=true" width="100%" alt="adova" />
-</div>
